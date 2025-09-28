@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hearto | Фигурки из глины ручной работы</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Базовые стили */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary-color: #8d6e63;
+            --secondary-color: #ffab91;
+            --text-color: #5d4037;
+            --light-color: #fefaf6;
+            --white: #ffffff;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            background-color: var(--light-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Шапка сайта */
+        header {
+            background-color: var(--white);
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: var(--primary-color);
+            z-index: 1001;
+        }
+        
+        .logo span {
+            color: var(--secondary-color);
+        }
+        
+        /* Гамбургер-меню */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        
+        .menu-toggle span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background-color: var(--primary-color);
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+        
+        /* Навигация */
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 25px;
+        }
+        
+        nav ul li a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+            font-size: 16px;
+        }
+        
+        nav ul li a:hover {
+            color: var(--secondary-color);
+        }
+        
+        /* Герой-секция */
+        .hero {
+            background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url('https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+            color: var(--text-color);
+            text-align: center;
+            padding: 80px 0;
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+        
+        .hero p {
+            font-size: 18px;
+            margin: 0 auto 30px;
+            color: var(--primary-color);
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .btn:hover {
+            background-color: #ff8a65;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        /* Секция "О мастере" */
+        .about {
+            padding: 80px 0;
+            background-color: var(--white);
+        }
+        
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+        
+        .about-text {
+            flex: 1;
+        }
+        
+        .about-image {
+            flex: 1;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .section-title {
+            margin-bottom: 30px;
+            font-size: 32px;
+            color: var(--text-color);
+            font-weight: 300;
+        }
+        
+        .section-subtitle {
+            font-size: 20px;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        /* Секция с примерами работ */
+        .portfolio {
+            padding: 80px 0;
+            background-color: #f9f5f0;
+        }
+        
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        
+        .portfolio-item {
+            background-color: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+        
+        .portfolio-item:hover {
+            transform: translateY(-10px);
+        }
+        
+        .portfolio-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+        
+        .portfolio-info {
+            padding: 20px;
+        }
+        
+        .portfolio-info h3 {
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+        
+        .portfolio-info p {
+            color: var(--primary-color);
+            font-size: 14px;
+        }
+        
+        /* Секция "Что я создаю" */
+        .creations {
+            padding: 80px 0;
+            background-color: var(--white);
+        }
+        
+        .creations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+            gap: 25px;
+        }
+        
+        .creation-item {
+            text-align: center;
+            padding: 25px 15px;
+            border-radius: 10px;
+            background-color: #f9f5f0;
+            transition: all 0.3s;
+        }
+        
+        .creation-item:hover {
+            background-color: #ffebee;
+            transform: translateY(-5px);
+        }
+        
+        .creation-icon {
+            font-size: 40px;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+        
+        .creation-item h3 {
+            margin-bottom: 15px;
+            color: var(--text-color);
+        }
+        
+        /* Секция доставки */
+        .delivery {
+            padding: 80px 0;
+            background-color: #f9f5f0;
+        }
+        
+        .delivery-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+        
+        .delivery-text {
+            flex: 1;
+        }
+        
+        .delivery-image {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .delivery-image img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .delivery-options {
+            display: flex;
+            margin-top: 30px;
+            gap: 20px;
+        }
+        
+        .delivery-option {
+            flex: 1;
+            text-align: center;
+            padding: 20px;
+            background-color: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        /* Подвал */
+        footer {
+            background-color: var(--text-color);
+            color: var(--white);
+            padding: 60px 0 30px;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-column h3 {
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column ul li a {
+            color: #ffccbc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column ul li a:hover {
+            color: var(--white);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: var(--white);
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 18px;
+        }
+        
+        .social-links a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+            color: #ffccbc;
+        }
+        
+        /* Адаптивность для мобильных устройств */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+            
+            .about-content, .delivery-content {
+                gap: 30px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            /* Гамбургер-меню для мобильных */
+            .menu-toggle {
+                display: flex;
+            }
+            
+            nav {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                max-width: 300px;
+                height: 100vh;
+                background-color: var(--white);
+                box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+                transition: right 0.3s ease;
+                z-index: 1000;
+                padding: 80px 20px 20px;
+            }
+            
+            nav.active {
+                right: 0;
+            }
+            
+            nav ul {
+                flex-direction: column;
+            }
+            
+            nav ul li {
+                margin: 0 0 20px 0;
+            }
+            
+            nav ul li a {
+                font-size: 18px;
+                display: block;
+                padding: 10px 0;
+            }
+            
+            /* Анимация гамбургера */
+            .menu-toggle.active span:nth-child(1) {
+                transform: translateY(9px) rotate(45deg);
+            }
+            
+            .menu-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+            
+            .menu-toggle.active span:nth-child(3) {
+                transform: translateY(-9px) rotate(-45deg);
+            }
+            
+            .overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0,0,0,0.5);
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+                z-index: 999;
+            }
+            
+            .overlay.active {
+                opacity: 1;
+                visibility: visible;
+            }
+            
+            .header-content {
+                padding: 0 10px;
+            }
+            
+            .hero {
+                padding: 60px 0;
+                min-height: 60vh;
+            }
+            
+            .hero h1 {
+                font-size: 28px;
+            }
+            
+            .hero p {
+                font-size: 16px;
+            }
+            
+            .about-content, .delivery-content {
+                flex-direction: column;
+            }
+            
+            .delivery-options {
+                flex-direction: column;
+            }
+            
+            .section-title {
+                font-size: 28px;
+            }
+            
+            .portfolio-grid, .creations-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 15px;
+            }
+            
+            .hero {
+                padding: 40px 0;
+            }
+            
+            .hero h1 {
+                font-size: 24px;
+            }
+            
+            .btn {
+                padding: 10px 25px;
+                font-size: 14px;
+            }
+            
+            .about, .portfolio, .creations, .delivery {
+                padding: 60px 0;
+            }
+            
+            .section-title {
+                font-size: 24px;
+            }
+            
+            .section-subtitle {
+                font-size: 18px;
+            }
+        }
+        
+        /* Оптимизация изображений */
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        /* Улучшение производительности скролла */
+        .smooth-scroll {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <!-- Шапка сайта -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">Hearto<span>Мастерская</span></div>
+                
+                <!-- Гамбургер-меню -->
+                <button class="menu-toggle" id="menuToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                
+                <nav id="mainNav">
+                    <ul>
+                        <li><a href="#about">О мастере</a></li>
+                        <li><a href="#portfolio">Мои работы</a></li>
+                        <li><a href="#creations">Что создаю</a></li>
+                        <li><a href="#delivery">Доставка</a></li>
+                        <li><a href="form.html" class="btn">Заказать</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="overlay" id="overlay"></div>
+    </header>
+
+    <!-- Герой-секция -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Уникальные творения из глины ручной работы</h1>
+                <p>Добро пожаловать в мою творческую мастерскую! Здесь рождаются уникальные фигурки, созданные с любовью и вниманием к каждой детали. Каждое изделие - это частичка души, воплощенная в глине.</p>
+                <a href="#portfolio" class="btn">Посмотреть работы</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- О мастере -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">О мастере</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3 class="section-subtitle">Привет! Меня зовут Аня, и я создаю уникальные вещи из глины</h3>
+                    <p>Уже более 5 лет я занимаюсь лепкой из глины, создавая неповторимые фигурки, украшения и декоративные элементы. В своей работе я сочетаю традиционные техники с современными подходами, что позволяет создавать действительно уникальные изделия.</p>
+                    <p>Каждая моя работа - это не просто предмет, а история, воплощенная в материале. Я верю, что вещи, созданные вручную, несут особую энергетику и тепло мастера.</p>
+                    <p>В моей мастерской вы найдете фигурки животных, сказочных персонажей, абстрактные композиции и многое другое. Я также открыта для сотрудничества и создания работ по вашим индивидуальным эскизам.</p>
+                </div>
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1603712607166-7cfcddc0d1e9?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Мастер за работой">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Примеры работ -->
+    <section id="portfolio" class="portfolio">
+        <div class="container">
+            <h2 class="section-title">Мои работы</h2>
+            <div class="portfolio-grid">
+                <!-- Пример работы 1 -->
+                <div class="portfolio-item">
+                    <img src="https://images.unsplash.com/photo-1578632749014-ca77efd052eb?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Фигурка лисы" class="portfolio-img">
+                    <div class="portfolio-info">
+                        <h3>Лиса-хозяйка</h3>
+                        <p>Фигурка лисы в смешанной технике с элементами текстиля и росписи.</p>
+                    </div>
+                </div>
+                
+                <!-- Пример работы 2 -->
+                <div class="portfolio-item">
+                    <img src="https://images.unsplash.com/photo-1598669718296-2929f21d68d4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Керамический ангел" class="portfolio-img">
+                    <div class="portfolio-info">
+                        <h3>Ангел-хранитель</h3>
+                        <p>Нежная фигурка ангела с детализированными крыльями и позолотой.</p>
+                    </div>
+                </div>
+                
+                <!-- Пример работы 3 -->
+                <div class="portfolio-item">
+                    <img src="https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Керамическая ваза" class="portfolio-img">
+                    <div class="portfolio-info">
+                        <h3>Ваза "Лесная сказка"</h3>
+                        <p>Декоративная ваза с рельефным изображением лесных жителей.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Что я создаю -->
+    <section id="creations" class="creations">
+        <div class="container">
+            <h2 class="section-title">Что я создаю</h2>
+            <div class="creations-grid">
+                <div class="creation-item">
+                    <div class="creation-icon">🐾</div>
+                    <h3>Фигурки животных</h3>
+                    <p>Реалистичные и стилизованные изображения животных, птиц и насекомых</p>
+                </div>
+                
+                <div class="creation-item">
+                    <div class="creation-icon">🧚</div>
+                    <h3>Сказочные персонажи</h3>
+                    <p>Эльфы, феи, гномы и другие волшебные существа из сказок и легенд</p>
+                </div>
+                
+                <div class="creation-item">
+                    <div class="creation-icon">🎭</div>
+                    <h3>Абстрактные композиции</h3>
+                    <p>Уникальные декоративные элементы для интерьера</p>
+                </div>
+                
+                <div class="creation-item">
+                    <div class="creation-icon">📿</div>
+                    <h3>Значки и броши</h3>
+                    <p>Небольшие изделия, которые могут стать акцентом вашего образа</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Доставка -->
+    <section id="delivery" class="delivery">
+        <div class="container">
+            <h2 class="section-title">Доставка и оплата</h2>
+            <div class="delivery-content">
+                <div class="delivery-text">
+                    <p>Я стараюсь сделать процесс получения заказа максимально удобным для вас. Все работы тщательно упаковываются в защитную упаковку, чтобы они дошли до вас в целости и сохранности.</p>
+                    
+                    <div class="delivery-options">
+                        <div class="delivery-option">
+                            <h3>Почта России</h3>
+                            <p>Отправка в течение 3-5 дней после готовности заказа</p>
+                        </div>
+                        
+                        <div class="delivery-option">
+                            <h3>СДЭК</h3>
+                            <p>Быстрая доставка по всей России, отправка в течение 1-3 дней</p>
+                        </div>
+                    </div>
+                    
+                    <p style="margin-top: 20px;">После оформления заказа я свяжусь с вами для уточнения деталей и согласования способа доставки.</p>
+                </div>
+                <div class="delivery-image">
+                    <img src="https://images.unsplash.com/photo-1556655848-f3a6b600b0e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Упаковка изделий">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Подвал -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Творческая Мастерская</h3>
+                    <p>Создание уникальных изделий из глины ручной работы. Фигурки, значки, декоративные элементы.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-vk"></i></a>
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Разделы</h3>
+                    <ul>
+                        <li><a href="#about">О мастере</a></li>
+                        <li><a href="#portfolio">Мои работы</a></li>
+                        <li><a href="#creations">Что создаю</a></li>
+                        <li><a href="#delivery">Доставка</a></li>
+                        <li><a href="order.html">Заказать</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Контакты</h3>
+                    <ul>
+                        <li>Email: example@mail.ru</li>
+                        <li>Телефон: +7 (XXX) XXX-XX-XX</li>
+                        <li>Адрес: г. Москва</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>© 2023 Творческая Мастерская. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Гамбургер-меню
+        const menuToggle = document.getElementById('menuToggle');
+        const mainNav = document.getElementById('mainNav');
+        const overlay = document.getElementById('overlay');
+        
+        menuToggle.addEventListener('click', function() {
+            this.classList.toggle('active');
+            mainNav.classList.toggle('active');
+            overlay.classList.toggle('active');
+            document.body.style.overflow = mainNav.classList.contains('active') ? 'hidden' : '';
+        });
+        
+        // Закрытие меню при клике на оверлей или ссылку
+        overlay.addEventListener('click', closeMenu);
+        
+        const navLinks = document.querySelectorAll('nav a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', closeMenu);
+        });
+        
+        function closeMenu() {
+            menuToggle.classList.remove('active');
+            mainNav.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        // Оптимизация для мобильных устройств
+        // Предзагрузка критически важных ресурсов
+        function preloadCriticalResources() {
+            const criticalImages = [
+                'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80'
+            ];
+            
+            criticalImages.forEach(src => {
+                const img = new Image();
+                img.src = src;
+            });
+        }
+        
+        // Отложенная загрузка не критических изображений
+        function lazyLoadImages() {
+            const images = document.querySelectorAll('img[data-src]');
+            
+            if ('IntersectionObserver' in window) {
+                const imageObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const img = entry.target;
+                            img.src = img.dataset.src;
+                            img.removeAttribute('data-src');
+                            imageObserver.unobserve(img);
+                        }
+                    });
+                });
+                
+                images.forEach(img => imageObserver.observe(img));
+            } else {
+                // Fallback для браузеров без поддержки IntersectionObserver
+                images.forEach(img => {
+                    img.src = img.dataset.src;
+                    img.removeAttribute('data-src');
+                });
+            }
+        }
+        
+        // Оптимизация производительности при скролле
+        let ticking = false;
+        
+        function updateOnScroll() {
+            // Добавьте здесь код, который должен выполняться при скролле
+            ticking = false;
+        }
+        
+        window.addEventListener('scroll', function() {
+            if (!ticking) {
+                requestAnimationFrame(updateOnScroll);
+                ticking = true;
+            }
+        });
+        
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            preloadCriticalResources();
+            lazyLoadImages();
+        });
+    </script>
+</body>
+</html>

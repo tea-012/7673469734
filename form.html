@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Заявка на фигурку – Студия ClayLove</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Jost:wght@400;600&display=swap');
+
+    /* Основные стили */
+    body {
+      background: linear-gradient(135deg, #f7f3f2, #e7d6d1);
+      font-family: 'Jost', sans-serif;
+      color: #4a3c39;
+      margin: 0;
+      padding: 0 20px 50px;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+      align-items: flex-start;
+      animation: fadeIn 1.2s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    .container {
+      background: #fffaf6;
+      max-width: 600px;
+      width: 100%;
+      margin-top: 40px;
+      border-radius: 16px;
+      box-shadow: 0 12px 35px rgba(134, 103, 98, 0.15);
+      padding: 40px 50px 50px;
+      box-sizing: border-box;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .container:hover {
+      box-shadow: 0 20px 55px rgba(134, 103, 98, 0.3);
+    }
+
+    h1 {
+      margin: 0 0 25px;
+      font-weight: 600;
+      font-size: 2.6rem;
+      text-align: center;
+      color: #7a4a42;
+      letter-spacing: 1px;
+      text-shadow: 1px 1px 3px #ccb4ad;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    label {
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+      display: block;
+      color: #6e4c45;
+      transition: color 0.3s ease;
+    }
+
+    label:hover {
+      color: #a75c4b;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 110px;
+      border: 2px solid #d9cbc7;
+      border-radius: 12px;
+      padding: 14px 20px;
+      font-family: 'Jost', sans-serif;
+      font-size: 1rem;
+      color: #533d38;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: inset 0 2px 8px rgba(214, 184, 170, 0.15);
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: #a75c4b;
+      box-shadow: 0 0 8px #d8a898;
+      background: #fff7f3;
+    }
+
+    input[type="file"] {
+      border: 2px solid #d9cbc7;
+      border-radius: 12px;
+      padding: 12px 15px;
+      transition: border-color 0.3s ease;
+      cursor: pointer;
+      font-family: 'Jost', sans-serif;
+      color: #6e5047;
+      background: #fcf9f7;
+    }
+    input[type="file"]:hover {
+      border-color: #a75c4b;
+      background: #fff7f3;
+    }
+
+    input[type="submit"] {
+      background: linear-gradient(135deg, #a75c4b, #bf7a62);
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      padding: 14px;
+      font-size: 1.25rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.4s ease, box-shadow 0.4s ease;
+      box-shadow: 0 6px 18px rgba(167, 92, 75, 0.35);
+      letter-spacing: 1.2px;
+      user-select: none;
+    }
+
+    input[type="submit"]:hover {
+      background: linear-gradient(135deg, #bf7a62, #a75c4b);
+      box-shadow: 0 9px 28px rgba(191, 122, 98, 0.55);
+      transform: translateY(-2px);
+    }
+
+    /* Информационные блоки */
+    .info {
+      background: #fff3cd;
+      border-left: 6px solid #f0ad4e;
+      padding: 20px 25px;
+      border-radius: 10px;
+      font-weight: 500;
+      color: #856404;
+      margin-bottom: 40px;
+      box-shadow: 0 6px 16px rgba(244, 196, 66, 0.25);
+      animation: slideInLeft 1s ease forwards;
+    }
+
+    .examples {
+      background: #f8f9fa;
+      border-radius: 14px;
+      padding: 22px 30px;
+      color: #6f5b53;
+      font-style: italic;
+      font-weight: 500;
+      line-height: 1.6;
+      box-shadow: 0 6px 20px rgba(199, 176, 168, 0.14);
+      user-select: none;
+      animation: slideInRight 1s ease forwards;
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    /* Адаптивность */
+    @media (max-width: 650px) {
+      .container {
+        padding: 30px 25px 40px;
+      }
+      h1 {
+        font-size: 2rem;
+      }
+      input[type="submit"] {
+        font-size: 1.1rem;
+        padding: 12px;
+      }
+      .info, .examples {
+        padding: 15px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container" role="main">
+    <h1>Заявка на изготовление фигурки</h1>
+
+    <div class="info" aria-live="polite">
+      <p><strong>Как оформить заявку?</strong></p>
+      <p>Опишите свою идею подробно: желаемый размер, цвета, стиль, материалы и особенности фигурки.</p>
+      <p>Прикрепите фото или рисунки, которые помогут точнее понять ваши пожелания.</p>
+    </div>
+
+    <form action="/submit-order" method="post" enctype="multipart/form-data" aria-label="Форма заявки">
+      <label for="description">Описание заказа</label>
+      <textarea id="description" name="description" placeholder="Опишите, что бы вы хотели заказать..." required></textarea>
+
+      <label for="refs">Прикрепить референсы (фото, рисунки)</label>
+      <input type="file" id="refs"  name="files[]" multiple accept="image/*" aria-describedby="refsHelp" />
+
+      <input type="submit" value="Отправить заявку" aria-label="Отправить заявку" />
+    </form>
+
+    <h2>Примеры описаний</h2>
+    <div class="examples" aria-live="polite">
+      <p>• Маленькая фигурка котика, 10 см в высоту, светлые тона, с милой улыбкой и закрытыми глазами.<br>
+      • Персонаж из мультфильма, высота 15 см, яркий цвет, поза стоя на задних лапках.<br>
+      • Миниатюрный домик с крышей, 8 см, пастельные оттенки, цветы рядом.</p>
+    </div>
+  </div>
+</body>
+</html>
