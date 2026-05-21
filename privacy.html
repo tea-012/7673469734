@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Политика конфиденциальности — HEARTO</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        /* Дополнительные стили для страницы политики */
+        .policy-hero {
+            text-align: center;
+            padding: 140px 20px 40px;
+        }
+        .policy-hero h1 {
+            font-size: 42px;
+            margin-bottom: 16px;
+            color: #1E1B4B;
+            word-break: break-word;
+            hyphens: auto;
+        }
+        .policy-hero h1::after {
+            content: "";
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #5B4BFF, #781C4F);
+            margin: 12px auto 0;
+            border-radius: 2px;
+        }
+        .policy-hero .sub {
+            font-size: 16px;
+            color: #6b5f7a;
+            max-width: 600px;
+            margin: 0 auto;
+            word-break: break-word;
+        }
+
+        /* Основной контент политики */
+        .policy-content {
+            max-width: 900px;
+            margin: 0 auto 80px;
+            background: white;
+            border-radius: 32px;
+            padding: 50px 60px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.04);
+            overflow-x: hidden;
+            word-wrap: break-word;
+        }
+        .policy-content h2 {
+            font-size: 26px;
+            margin: 30px 0 15px;
+            color: #1E1B4B;
+            word-break: break-word;
+        }
+        .policy-content h2:first-of-type {
+            margin-top: 0;
+        }
+        .policy-content h2::after {
+            display: none;
+        }
+        .policy-content h3 {
+            font-size: 20px;
+            margin: 25px 0 12px;
+            color: #781C4F;
+            word-break: break-word;
+        }
+        .policy-content p {
+            color: #4a4568;
+            line-height: 1.7;
+            margin-bottom: 16px;
+            font-size: 15px;
+            word-break: break-word;
+        }
+        .policy-content ul {
+            margin: 15px 0 20px;
+            padding-left: 25px;
+        }
+        .policy-content li {
+            color: #4a4568;
+            margin-bottom: 10px;
+            line-height: 1.6;
+            word-break: break-word;
+        }
+        .policy-content strong {
+            color: #781C4F;
+        }
+        .policy-date {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e0d6f0;
+            font-size: 14px;
+            color: #8a7aad;
+            text-align: center;
+        }
+        .policy-contact {
+            background: #F6F5FF;
+            border-radius: 20px;
+            padding: 20px 28px;
+            margin-top: 35px;
+            text-align: center;
+        }
+        .policy-contact p {
+            margin-bottom: 8px;
+            word-break: break-word;
+        }
+        .policy-contact a {
+            color: #781C4F;
+            text-decoration: none;
+            font-weight: 500;
+            word-break: break-all;
+        }
+        .policy-contact a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .policy-hero { 
+                padding-top: 100px; 
+                padding-left: 16px;
+                padding-right: 16px;
+            }
+            .policy-hero h1 { 
+                font-size: 28px; 
+                line-height: 1.3;
+            }
+            .policy-content { 
+                padding: 28px 20px; 
+                margin-left: 16px;
+                margin-right: 16px;
+                width: calc(100% - 32px);
+                box-sizing: border-box;
+            }
+            .policy-content h2 { 
+                font-size: 22px; 
+            }
+            .policy-content h3 { 
+                font-size: 18px; 
+            }
+            .policy-content ul {
+                padding-left: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .policy-content {
+                padding: 22px 16px;
+            }
+            .policy-content h2 {
+                font-size: 20px;
+            }
+            .policy-contact {
+                padding: 16px;
+            }
+        }
+
+        /* Переопределение цветов футера */
+        footer {
+            background: #681844;
+        }
+        footer .footer-grid h3,
+        footer .footer-grid h4,
+        footer .footer-grid a,
+        footer .copyright p {
+            color: #ffffff;
+        }
+        footer .footer-grid a:hover {
+            color: #1E1B4B;
+        }
+        footer .copyright {
+            border-top-color: rgba(120, 28, 79, 0.15);
+        }
+        .social-icons a {
+            color: #1E1B4B;
+        }
+        .social-icons a:hover {
+            color: #781C4F;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ХЕДЕР -->
+    <header id="header">
+        <div class="container header-inner">
+            <div class="logo" onclick="location.href='index.html'">HEARTO</div>
+            <button class="burger" id="burgerBtn">☰</button>
+            <nav>
+                <a href="index.html#portfolio">Работы</a>
+                <a href="about.html">О мастере</a>
+                <a href="index.html#process">Процесс</a>
+                <a href="delivery.html">Доставка</a>
+                <a href="order.html" class="btn">Заказать</a>
+            </nav>
+        </div>
+    </header>
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <!-- ОСНОВНОЙ КОНТЕНТ -->
+    <div class="container" style="width: 100%; padding-left: 0; padding-right: 0;">
+        <div class="policy-hero">
+            <h1>Политика конфиденциальности</h1>
+        </div>
+
+        <div class="policy-content">
+            <h2>1. Общие положения</h2>
+            <p>Настоящая Политика конфиденциальности определяет порядок обработки и защиты персональных данных пользователей интернет-магазина авторских игрушек HEARTO (далее — «Сайт»).</p>
+            <p>Я, как владелец Сайта, уважаю ваше право на конфиденциальность и обязуюсь защищать любую информацию, которую вы предоставляете при оформлении заказа или общении со мной.</p>
+
+            <h2>2. Какие данные собираются</h2>
+            <p>При оформлении заказа или связи со мной через формы обратной связи, мессенджеры или электронную почту могут собираться следующие данные:</p>
+            <ul>
+                <li>Ваше имя (или псевдоним);</li>
+                <li>Адрес электронной почты;</li>
+                <li>Данные, необходимые для отправки заказа через службы доставки (СДЭК, ТК КИТ, Почта России).</li>
+            </ul>
+
+            <h2>3. Цели сбора данных</h2>
+            <p>Ваши персональные данные используются исключительно для:</p>
+            <ul>
+                <li>Обработки и оформления вашего заказа;</li>
+                <li>Связи с вами для уточнения деталей заказа, доставки или возврата;</li>
+                <li>Отправки готовой игрушки по указанному адресу;</li>
+                <li>Информирования о статусе заказа и его отправке.</li>
+            </ul>
+            <p><strong>Важно:</strong> Я НЕ передаю ваши данные третьим лицам, кроме случаев, предусмотренных законодательством РФ или когда это необходимо для работы служб доставки (им передаётся только адрес и контактный телефон).</p>
+
+            <h2>4. Хранение и защита данных</h2>
+            <p>Я принимаю все необходимые меры для защиты ваших данных от несанкционированного доступа, изменения, раскрытия или уничтожения. Все данные хранятся на защищённых устройствах и не передаются посторонним.</p>
+            <p>Личная переписка (Telegram и почта) не разглашается и используется только для решения вопросов, связанных с вашим заказом.</p>
+
+            <h2>5. Сроки хранения данных</h2>
+            <p>Ваши данные хранятся до момента выполнения заказа и в течение <strong>6 месяцев</strong> после этого для решения возможных вопросов по возврату или гарантии. По истечении этого срока данные удаляются, если вы не дали согласие на дальнейшее хранение.</p>
+
+            <h2>6. Ваши права</h2>
+            <p>Вы имеете право:</p>
+            <ul>
+                <li>Запросить информацию о том, какие ваши данные хранятся у меня;</li>
+                <li>Потребовать удалить или исправить ваши персональные данные;</li>
+                <li>Отозвать согласие на обработку данных в любое время.</li>
+            </ul>
+            <p>Для этого достаточно написать мне в Telegram или в мессенджеры, указанные в контактах.</p>
+
+            <h2>7. Использование файлов cookie</h2>
+            <p>Сайт может использовать файлы cookie для улучшения работы и анализа посещаемости. Вы можете отключить cookie в настройках вашего браузера, но это может повлиять на удобство использования сайта.</p>
+
+            <h2>8. Ссылки на сторонние сайты</h2>
+            <p>На Сайте могут быть ссылки на другие ресурсы (соцсети, службы доставки). Я не несу ответственности за политику конфиденциальности этих сайтов.</p>
+
+            <h2>9. Изменения в политике</h2>
+            <p>Я оставляю за собой право вносить изменения в настоящую Политику конфиденциальности. Актуальная версия всегда доступна на этой странице. Если изменения существенные — я уведомлю вас через сайт или в соцсетях.</p>
+
+            <div class="policy-contact">
+                <p><strong>📬 Контакты для вопросов о персональных данных:</strong></p>
+                <p>Telegram: <a href="#">@hearto_shop</a></p>
+                <p>Email: hearto@example.com</p>
+                <p style="font-size: 13px; margin-top: 12px;">Вы можете связаться со мной в любое время для уточнения, изменения или удаления ваших данных.</p>
+            </div>
+
+            <div class="policy-date">
+                <p>© 2026 HEARTO. Все права защищены.</p>
+                <p>Дата последнего обновления: 01.04.2026</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER с цветом EFEAFF и акцентом 781C4F -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div><h3>HEARTO</h3><p>Авторские игрушки</p></div>
+                <div>
+                    <h4>Навигация</h4>
+                    <a href="index.html#portfolio">Работы</a>
+                    <a href="about.html">О мастере</a>
+                    <a href="index.html#process">Процесс</a>
+                    <a href="delivery.html">Доставка</a>
+                    <a href="order.html">Заказать</a>
+                </div>
+                <div>
+                    <h4>Документы</h4>
+                    <a href="privacy.html" style="color: #1E1B4B; font-weight: 500;">Политика конфиденциальности</a>
+                    <a href="terms.html">Пользовательское соглашение</a>
+                </div>
+                <div>
+                    <h4>Соцсети</h4>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright"><p>© 2026 HEARTO</p></div>
+        </div>
+    </footer>
+
+    <!-- ПОМОЩНИК -->
+    <div id="assistantOpen" class="assistant-open">💬</div>
+    <div id="assistant" class="assistant">
+        <div id="questions" class="assistant-questions"></div>
+        <div id="message" class="assistant-text"></div>
+        <div class="assistant-character">
+            <img id="characterImg" src="images/talk.jfif" alt="Помощник">
+        </div>
+        <button id="assistantClose" class="assistant-close">⭐</button>
+    </div>
+
+    <audio id="typingSound" src="sounds/typing.wav" preload="auto"></audio>
+    <script src="script.js"></script>
+</body>
+</html>

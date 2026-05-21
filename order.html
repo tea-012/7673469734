@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<title>HEARTO — Заказать фигурку</title>
+<link rel="stylesheet" href="style.css">
+<style>
+:root {
+    --blue-main: #5B4BFF;
+    --blue-light: #8A7CFF;
+    --purple-text: #4A3D8F;
+    --purple-dark: #3A2D7A;
+    --raspberry: #97277A;
+    --raspberry-bright: #C93367;
+    --hint-text: #7B70B0;
+    --card-bg: rgba(255, 255, 255, 0.55);
+    --card-border: rgba(91, 75, 255, 0.2);
+    
+    /* ===== ЦВЕТ ГРАНИЦ ПОЛЕЙ ===== */
+    --input-border: #878cd4;
+    --input-focus: #B4356C;
+    --input-focus-ring: rgba(180, 53, 108, 0.18);
+}
+
+/* ===== ФОНОВАЯ СЕКЦИЯ + ПЛАВНЫЙ ПЕРЕХОД К ФУТЕРУ ===== */
+.order-page {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    /* Градиент плавно темнеет внизу для органичного слияния с футером */
+    background: linear-gradient(
+        180deg,
+        #EEEDFF 0%,
+        #d2cdf7 25%,
+        #b7aceb 50%,
+        #afa0eb 70%,
+        #9386d6 82%,
+        #62538b 100%
+    );
+    padding-top: 80px;
+    padding-bottom: 60px;
+    overflow: hidden;
+}
+
+/* Если у вас футер конкретного цвета, замените #7B68AE в градиенте на него */
+
+/* ===== ЗВЁЗДЫ ===== */
+.stars-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.star {
+    position: absolute;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.9), 0 0 12px rgba(138, 124, 255, 0.5);
+    animation: twinkle var(--dur) ease-in-out infinite var(--del);
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.25; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.15); }
+}
+
+.order-container {
+    position: relative;
+    z-index: 2;
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+.order-info {
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    padding: 24px 20px;
+    margin-bottom: 20px;
+    border: 1px solid var(--card-border);
+}
+
+.order-info__title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--purple-dark);
+    margin-bottom: 14px;
+    text-align: center;
+    line-height: 1.3;
+}
+
+.order-info__title span {
+    display: block;
+    font-size: 16px;
+    color: var(--blue-main);
+    font-weight: 600;
+    margin-top: 4px;
+}
+
+.order-info__text {
+    font-size: 13px;
+    color: var(--purple-text);
+    line-height: 1.65;
+    margin-bottom: 14px;
+}
+
+.order-info__hint {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--blue-main);
+    line-height: 1.5;
+    margin-top: 0;
+}
+
+.order-form-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    padding: 24px 20px;
+    margin-bottom: 20px;
+    border: 1px solid var(--card-border);
+}
+
+.form-group { margin-bottom: 14px; }
+
+.form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--purple-dark);
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid var(--input-border); /* #B4356C */
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+    color: var(--purple-dark);
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
+    box-sizing: border-box;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #AFA4E0;
+    font-size: 13px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: var(--input-focus);
+    box-shadow: 0 0 0 3px var(--input-focus-ring);
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.form-group textarea { min-height: 140px; resize: vertical; }
+
+.form-group .hint {
+    font-size: 11.5px;
+    color: var(--hint-text);
+    margin-top: 4px;
+    padding-left: 2px;
+    font-style: italic;
+}
+
+.form-group label .req { color: var(--raspberry); font-size: 14px; }
+
+.contact-note {
+    background: rgba(91, 75, 255, 0.08);
+    border: 1px dashed rgba(91, 75, 255, 0.35);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-bottom: 18px;
+    font-size: 12.5px;
+    color: var(--purple-text);
+    line-height: 1.5;
+}
+
+.contact-note i { margin-right: 6px; color: var(--raspberry); }
+.contact-note strong { color: var(--raspberry); }
+
+.file-upload-area { margin-bottom: 14px; }
+.file-upload-area > label {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--purple-dark);
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.file-drop-zone {
+    border: 2px dashed var(--input-border);
+    border-radius: 14px;
+    padding: 28px 16px;
+    text-align: center;
+    transition: border-color 0.3s, background 0.3s;
+    background: rgba(255, 255, 255, 0.4);
+    position: relative;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.file-drop-zone:hover {
+    border-color: var(--input-focus);
+    background: rgba(180, 53, 108, 0.06);
+}
+
+.file-drop-zone.dragover {
+    border-color: var(--input-focus);
+    background: rgba(180, 53, 108, 0.1);
+    border-style: solid;
+}
+
+.file-drop-zone__icon {
+    font-size: 28px;
+    margin-bottom: 8px;
+    pointer-events: none;
+}
+
+.file-drop-zone__text {
+    font-size: 13px;
+    color: var(--hint-text);
+    line-height: 1.5;
+    pointer-events: none;
+}
+
+.file-drop-zone__text strong {
+    color: var(--input-focus);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.file-drop-zone input[type="file"] { display: none; }
+.file-drop-zone__clickable { cursor: pointer; display: block; }
+
+.file-preview-list {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.file-preview-item {
+    position: relative;
+    width: 70px;
+    height: 70px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid var(--input-border);
+    -webkit-user-drag: none;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.file-preview-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+    -webkit-user-drag: none;
+}
+
+.file-preview-item__remove {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 20px;
+    height: 20px;
+    background: var(--raspberry);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    font-size: 11px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    z-index: 2;
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #97277A, #C93367);
+    color: #fff;
+    border: none;
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+    box-shadow: 0 4px 20px rgba(151, 39, 122, 0.3);
+    margin-bottom: 20px;
+}
+
+.btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 28px rgba(151, 39, 122, 0.4);
+}
+.btn-submit:active { transform: translateY(0); }
+.btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+.example-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    padding: 24px 20px;
+    border: 1px solid var(--card-border);
+    margin-bottom: 40px;
+}
+
+.example-card__title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--purple-dark);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 14px;
+    text-align: center;
+}
+
+.example-card__text {
+    font-size: 13px;
+    color: var(--purple-text);
+    line-height: 1.7;
+    white-space: pre-line;
+}
+
+.success-message {
+    display: none;
+    text-align: center;
+    padding: 40px 20px;
+}
+.success-message.show { display: block; }
+.success-message__icon { font-size: 48px; margin-bottom: 16px; }
+.success-message__title { font-size: 20px; font-weight: 700; color: var(--purple-dark); margin-bottom: 10px; }
+.success-message__text { font-size: 14px; color: var(--blue-main); line-height: 1.6; }
+
+@media (max-width: 480px) {
+    .order-info, .order-form-card, .example-card { padding: 20px 16px; border-radius: 16px; }
+    .order-info__title { font-size: 18px; }
+    .form-group input, .form-group textarea { padding: 11px 14px; font-size: 13px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header id="header">
+<div class="container header-inner">
+<div class="logo" onclick="location.href='index.html'">HEARTO</div>
+<button class="burger" id="burgerBtn">☰</button>
+<nav>
+<a href="index.html#portfolio">Работы</a>
+<a href="about.html">О мастере</a>
+<a href="index.html#process">Процесс</a>
+<a href="delivery.html">Доставка</a>
+<a href="order.html" class="btn">Заказать</a>
+</nav>
+</div>
+</header>
+
+<!-- ORDER PAGE -->
+<section class="order-page">
+    <div class="stars-bg" id="starsBg"></div>
+
+    <div class="order-container">
+        <div class="order-info">
+            <div class="order-info__title">
+                Заявка на изготовление фигурки
+                <span>Как оформить заявку?</span>
+            </div>
+            <p class="order-info__text">
+                Опишите свою идею подробно: примерный размер, цвета, стиль, материалы и
+                особенности фигурки. Прикрепите фото или рисунки, которые помогут
+                точнее понять ваши пожелания.
+            </p>
+            <p class="order-info__hint">
+                Ваши личные данные — чтобы я могла с вами связаться 💌
+            </p>
+        </div>
+
+        <div class="order-form-card" id="orderFormCard">
+            <form id="orderForm" action="https://formspree.io/f/mjgzwoaw" method="POST" enctype="multipart/form-data" accept-charset="UTF-8">
+                <input type="hidden" name="_subject" value="Новая заявка на фигурку! HEARTO">
+                <div class="contact-note">
+                    <i class="fas fa-info-circle"></i>
+                    <strong>Обязательно:</strong> заполните <u>описание заказа</u> и хотя бы один способ связи — <strong>почту</strong> или <strong>телеграмм</strong>. Остальное — на ваше усмотрение.
+                </div>
+
+                <div class="form-group">
+                    <label>Почта <span class="req">*</span></label>
+                    <input type="email" id="email"  name="email" placeholder="example@mail.ru" autocomplete="email">
+                    <div class="hint">* или заполните Telegram</div>
+                </div>
+
+                <div class="form-group">
+                    <label>Телеграмм <span class="req">*</span></label>
+                    <input type="text" id="telegram" name="telegram" placeholder="@username" autocomplete="username">
+                    <div class="hint">* или заполните Почту</div>
+                </div>
+
+                <div class="form-group">
+                    <label>ФИО</label>
+                    <input type="text" id="fio" name="name" placeholder="Иванова Иван Иванович" autocomplete="name">
+                    <div class="hint">можно не заполнять</div>
+                </div>
+
+                <div class="form-group">
+                    <label>Адрес доставки</label>
+                    <input type="text" id="address" name="address" placeholder="Город, индекс, адрес" autocomplete="street-address">
+                    <div class="hint">можно не заполнять — обсудим лично</div>
+                </div>
+
+                <div class="form-group">
+                    <label>Телефон</label>
+                    <input type="tel" id="phone" name="phone" placeholder="+7 (___) ___-__-__" autocomplete="tel">
+                    <div class="hint">можно не заполнять</div>
+                </div>
+
+                <div class="form-group">
+                    <label>Описание заказа <span class="req">*</span></label>
+                    <textarea id="description" name="description" placeholder="Опишите вашу идею: размер, цвета, стиль, материалы, особенности фигурки..." required></textarea>
+                    <div class="hint">самое важное поле — опишите максимально подробно</div>
+                </div>
+
+                <div class="file-upload-area">
+                    <label>Прикрепить референсы</label>
+                    <div class="file-drop-zone" id="fileDropZone">
+                        <div class="file-drop-zone__clickable" id="fileClickTrigger">
+                            <div class="file-drop-zone__icon">📎</div>
+                            <div class="file-drop-zone__text">
+                                <strong>Нажмите для загрузки</strong> или перетащите файлы сюда<br>
+                                <small style="color:#AFA4E0;">Фото, рисунки — jpg, png, pdf</small>
+                            </div>
+                        </div>
+                    </div>
+                   <input type="file" id="fileInput" name="file" multiple accept="image/*,.pdf" 
+       style="position:absolute; opacity:0; width:0; height:0; pointer-events:none;">
+                    <div class="file-preview-list" id="filePreviewList"></div>
+                </div>
+
+                <button type="submit" class="btn-submit" id="submitBtn">
+                    <span id="submitText">Отправить</span>
+                </button>
+            </form>
+
+            <div class="success-message" id="successMessage">
+                <div class="success-message__icon">🎉</div>
+                <div class="success-message__title">Заявка отправлена!</div>
+                <div class="success-message__text">
+                    Спасибо! Я свяжусь с вами в ближайшее время<br>
+                    для обсуждения деталей ✨
+                </div>
+            </div>
+        </div>
+
+        <div class="example-card">
+            <div class="example-card__title">Примеры описаний</div>
+            <div class="example-card__text">
+• Маленькая фигурка котика. 10 см в высоту. Белый, с милой улыбкой и закрытыми глазами.
+
+• Мой персонаж, хочется чиби версию. У нее яркие волосы зеленого цвета, поза стоит на ногах. Руки держит по бокам, самоуверенная улыбка. Рассчитываю на сумму 700 рублей.
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ПОМОЩНИК -->
+<div id="assistantOpen" class="assistant-open">💬</div>
+<div id="assistant" class="assistant">
+    <div id="questions" class="assistant-questions"></div>
+    <div id="message" class="assistant-text"></div>
+    <div class="assistant-character">
+        <img id="characterImg" src="images/talk.jfif" alt="Помощник">
+    </div>
+    <button id="assistantClose" class="assistant-close">⭐</button>
+</div>
+
+<!-- FOOTER -->
+<footer>
+<div class="container">
+<div class="footer-grid">
+<div><h3>HEARTO</h3><p>Авторские игрушки</p></div>
+<div>
+<h4>Навигация</h4>
+<a href="index.html#portfolio">Работы</a>
+<a href="about.html">О мастере</a>
+<a href="index.html#process">Процесс</a>
+<a href="delivery.html">Доставка</a>
+<a href="order.html">Заказать</a>
+</div>
+<div>
+    <h4>Документы</h4>
+    <a href="privacy.html">Политика конфиденциальности</a>
+    <a href="terms.html">Пользовательское соглашение</a>
+</div>
+<div>
+<h4>Соцсети</h4>
+<div class="social-icons">
+<a href="#"><i class="fab fa-telegram"></i></a>
+</div>
+</div>
+</div>
+<div class="copyright"><p>© 2026 HEARTO</p></div>
+</div>
+</footer>
+
+<div class="menu-overlay" id="menuOverlay"></div>
+<audio id="typingSound" src="sounds/typing.wav" preload="auto"></audio>
+
+<script src="script.js"></script>
+<script>
+// ===== ГЕНЕРАЦИЯ ЗВЁЗД =====
+(function createStars() {
+    const container = document.getElementById('starsBg');
+    if (!container) return;
+    const count = 80;
+    for (let i = 0; i < count; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        const size = Math.random() * 3 + 2;
+        star.style.width = size + 'px';
+        star.style.height = size + 'px';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.setProperty('--dur', (Math.random() * 4 + 2.5) + 's');
+        star.style.setProperty('--del', (Math.random() * 6) + 's');
+        container.appendChild(star);
+    }
+})();
+
+
+ /*// ===== ЛОГИКА ФОРМЫ =====
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('orderForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const submitText = document.getElementById('submitText');
+    const successMessage = document.getElementById('successMessage');
+    const fileDropZone = document.getElementById('fileDropZone');
+    const fileClickTrigger = document.getElementById('fileClickTrigger');
+    const fileInput = document.getElementById('fileInput');
+    const filePreviewList = document.getElementById('filePreviewList');
+
+    let uploadedFiles = [];
+
+    fileClickTrigger.addEventListener('click', () => fileInput.click());
+
+    fileInput.addEventListener('change', (e) => {
+        if (e.target.files.length) {
+            addFiles(Array.from(e.target.files));
+            fileInput.value = '';
+        }
+    });
+
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(evt => {
+        fileDropZone.addEventListener(evt, e => { e.preventDefault(); e.stopPropagation(); }, false);
+    });
+
+    fileDropZone.addEventListener('dragover', e => { e.preventDefault(); e.stopPropagation(); fileDropZone.classList.add('dragover'); });
+    fileDropZone.addEventListener('dragleave', e => { e.preventDefault(); e.stopPropagation(); fileDropZone.classList.remove('dragover'); });
+    fileDropZone.addEventListener('drop', e => {
+        e.preventDefault(); e.stopPropagation();
+        fileDropZone.classList.remove('dragover');
+        if (e.dataTransfer?.files?.length) addFiles(Array.from(e.dataTransfer.files));
+    });
+
+    function addFiles(files) {
+        let added = false;
+        for (const f of files) {
+            if (f.size > 10 * 1024 * 1024) continue;
+            if (uploadedFiles.some(existing => existing.name === f.name && existing.size === f.size)) continue;
+            uploadedFiles.push(f);
+            added = true;
+        }
+        if (added) renderFilePreviews();
+    }
+
+    function renderFilePreviews() {
+        filePreviewList.innerHTML = '';
+        uploadedFiles.forEach((f, i) => {
+            const item = document.createElement('div');
+            item.className = 'file-preview-item';
+
+            if (f.type.startsWith('image/')) {
+                const img = document.createElement('img');
+                img.ondragstart = e => e.preventDefault();
+                img.draggable = false;
+                const reader = new FileReader();
+                reader.onload = e => { img.src = e.target.result; item.appendChild(img); };
+                reader.readAsDataURL(f);
+            } else {
+                const ph = document.createElement('div');
+                ph.style.cssText = 'display:flex;align-items:center;justify-content:center;height:100%;background:#EEEDFF;font-size:24px;';
+                ph.textContent = '📄';
+                item.appendChild(ph);
+            }
+
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'file-preview-item__remove';
+            btn.innerHTML = '✕';
+            btn.addEventListener('click', e => { e.stopPropagation(); uploadedFiles.splice(i, 1); renderFilePreviews(); });
+            item.appendChild(btn);
+            filePreviewList.appendChild(item);
+        });
+    }
+
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+        const email = document.getElementById('email').value.trim();
+        const telegram = document.getElementById('telegram').value.trim();
+        const desc = document.getElementById('description').value.trim();
+
+        if (!email && !telegram) { alert('Пожалуйста, заполните хотя бы Почту или Telegram ✉️'); return; }
+        if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { alert('Проверьте формат электронной почты ✉️'); return; }
+        if (!desc) { alert('Пожалуйста, опишите ваш заказ ✨'); document.getElementById('description').focus(); return; }
+        if (desc.length < 20) { alert('Опишите заказ подробнее — хотя бы 20 символов, чтобы я поняла вашу идею 💜'); document.getElementById('description').focus(); return; }
+
+        submitBtn.disabled = true;
+        submitText.textContent = 'Отправляю...';
+
+        setTimeout(() => {
+            form.style.display = 'none';
+            successMessage.classList.add('show');
+            if (typeof starRain === 'function') starRain({ particleCount: 60, spread: 50 });
+        }, 1200);
+    });
+
+    const phoneInput = document.getElementById('phone');
+    phoneInput.addEventListener('input', e => {
+        let val = e.target.value.replace(/\D/g, '');
+        if (val.length) { if (val[0] === '8') val = '7' + val.slice(1); if (val[0] !== '7') val = '7' + val; }
+        let f = '';
+        if (val.length) f = '+' + val[0];
+        if (val.length > 1) f += ' (' + val.substring(1, 4);
+        if (val.length > 4) f += ') ' + val.substring(4, 7);
+        if (val.length > 7) f += '-' + val.substring(7, 9);
+        if (val.length > 9) f += '-' + val.substring(9, 11);
+        e.target.value = f;
+    });
+});
+ /*
+/* =========================
+FORMBOLD + ФАЙЛЫ (FIX)
+========================= */
+const orderForm = document.getElementById('orderForm');
+const fileInput = document.getElementById('fileInput');
+const dropZone = document.getElementById('fileDropZone');
+const trigger = document.getElementById('fileClickTrigger');
+const previewList = document.getElementById('filePreviewList');
+
+// 1. Клик по зоне -> открываем выбор
+if (trigger && fileInput) {
+    trigger.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); fileInput.click(); });
+}
+
+// 2. Drag & Drop -> записываем файлы в инпут
+if (dropZone && fileInput) {
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(evt => {
+        dropZone.addEventListener(evt, (e) => { e.preventDefault(); e.stopPropagation(); });
+    });
+    ['dragenter', 'dragover'].forEach(evt => dropZone.addEventListener(evt, () => dropZone.classList.add('drag-active')));
+    ['dragleave', 'drop'].forEach(evt => dropZone.addEventListener(evt, () => dropZone.classList.remove('drag-active')));
+
+    dropZone.addEventListener('drop', (e) => {
+        const files = e.dataTransfer.files;
+        if (files.length) {
+            fileInput.files = files; // 🔥 КЛЮЧЕВОЕ: передаём файлы в скрытый инпут
+            updatePreview(files);
+        }
+    });
+}
+
+// 3. Стандартный выбор -> превью
+if (fileInput) {
+    fileInput.addEventListener('change', () => updatePreview(fileInput.files));
+}
+
+function updatePreview(files) {
+    if (!previewList) return;
+    previewList.innerHTML = '';
+    Array.from(files).forEach(f => {
+        const div = document.createElement('div');
+        div.style.cssText = 'font-size:13px; color:#666; margin:4px 0;';
+        div.textContent = `📄 ${f.name} (${(f.size/1024).toFixed(1)} KB)`;
+        previewList.appendChild(div);
+    });
+}
+
+// 4. Отправка формы
+if (orderForm) {
+    orderForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('submitBtn');
+        const originalText = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = 'Отправляю... ⏳';
+
+        const formData = new FormData(orderForm);
+
+        // 🔍 ПРОВЕРКА: открой F12 → Console, чтобы видеть, что уходит
+        console.log('📤 Отправляемые данные:');
+        for (let pair of formData.entries()) {
+            if (pair[0] === 'file') {
+                console.log(`📁 Файл: ${pair[1].name} (${pair[1].size} байт)`);
+            } else {
+                console.log(`${pair[0]}: ${pair[1]}`);
+            }
+        }
+
+        try {
+            const response = await fetch(orderForm.action, {
+                method: 'POST',
+                body: formData,
+                headers: { 'Accept': 'application/json' }
+            });
+
+            if (response.ok) {
+                orderForm.style.display = 'none';
+                const successMsg = document.getElementById('successMessage');
+                if (successMsg) successMsg.style.display = 'block';
+            } else {
+                alert('Ошибка сервера: ' + response.status);
+            }
+        } catch (err) {
+            alert('Ошибка сети: ' + err.message);
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = originalText;
+        }
+    });
+}
+</script>
+</body>
+</html>

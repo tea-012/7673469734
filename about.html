@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>О мастере — HEARTO</title>
+
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+/* перья */
+.feather {
+    position: fixed;
+    top: -60px;
+    font-size: 20px;
+    opacity: 0.3;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.feather img {
+    width: 60px;
+    height: auto;
+    opacity: 0.5;
+}
+
+.f1 { left: 8%; animation: fall1 12s linear infinite; }
+.f2 { left: 75%; animation: fall2 14s linear infinite; }
+
+@keyframes fall1 {
+    0% { transform: translate(0,0) rotate(0); }
+    100% { transform: translate(120px,110vh) rotate(260deg); }
+}
+@keyframes fall2 {
+    0% { transform: translate(0,0) rotate(0); }
+    100% { transform: translate(-100px,110vh) rotate(320deg); }
+}
+
+/* блок */
+.about-master {
+    padding: 110px 0 80px;
+    overflow-x: hidden;
+}
+
+.about-container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 0 40px;
+    display: flex;
+    gap: 50px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* ГИФКА — УМЕРЕННЫЙ РАЗМЕР, не больше текстового блока */
+.about-gif {
+    flex: 0.9;
+    min-width: 300px;
+    max-width: 380px;
+    text-align: center;
+}
+
+.about-gif img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    border-radius: 28px;
+    box-shadow: 0 20px 40px rgba(91,75,255,0.2);
+    display: block;
+    margin: 0 auto;
+    transition: transform 0.3s ease;
+}
+
+.about-gif img:hover {
+    transform: scale(1.02);
+}
+
+/* ТЕКСТ — чуть шире гифки */
+.about-text {
+    flex: 1.1;
+    background: rgba(255,255,255,0.82);
+    backdrop-filter: blur(4px);
+    border-radius: 36px;
+    padding: 35px 40px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    position: relative;
+}
+
+/* декор в углах */
+.decor {
+    position: absolute;
+    font-size: 22px;
+    opacity: 0.2;
+    pointer-events: none;
+}
+
+.decor i {
+    background: linear-gradient(135deg,#5B4BFF,#97277A);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.d1 { top: 12px; right: 18px; }
+.d2 { bottom: 12px; left: 18px; }
+
+/* заголовок */
+.about-text h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    color: #1E1B4B;
+}
+
+.about-text h1::after {
+    content:"";
+    display:block;
+    width: 65px;
+    height: 3px;
+    margin-top: 10px;
+    background: linear-gradient(90deg,#5B4BFF,#97277A);
+    border-radius: 2px;
+}
+
+/* текст */
+.about-text p {
+    font-size: 15.5px;
+    line-height: 1.7;
+    margin-bottom: 16px;
+    color: #2d2a35;
+}
+
+/* подпись */
+.signature {
+    margin-top: 24px;
+    font-style: italic;
+    color: #97277A;
+    border-left: 3px solid #97277A;
+    padding-left: 18px;
+    font-size: 14.5px;
+}
+
+/* заметка */
+.small-note {
+    margin-top: 20px;
+    font-size: 13px;
+    color: #8a7aad;
+    text-align: center;
+    border-top: 1px dashed rgba(151,39,122,0.2);
+    padding-top: 14px;
+}
+
+.small-note i {
+    background: linear-gradient(135deg,#5B4BFF,#97277A);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-right: 6px;
+}
+
+/* адаптив */
+@media (max-width: 850px) {
+    .about-container {
+        flex-direction: column;
+        gap: 35px;
+        padding: 0 25px;
+    }
+    
+    .about-gif {
+        max-width: 320px;
+        min-width: auto;
+    }
+    
+    .about-text {
+        padding: 28px 25px;
+        width: 100%;
+    }
+    
+    .about-text h1 {
+        text-align: center;
+        font-size: 30px;
+    }
+    
+    .about-text h1::after {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .about-text p {
+        text-align: center;
+    }
+    
+    .signature {
+        border-left: none;
+        border-top: 2px solid #97277A;
+        padding-top: 14px;
+        text-align: center;
+    }
+}
+
+@media (max-width: 550px) {
+    .about-container {
+        padding: 0 18px;
+    }
+    
+    .about-text {
+        padding: 22px 18px;
+    }
+    
+    .about-text h1 {
+        font-size: 26px;
+    }
+    
+    .about-text p {
+        font-size: 14px;
+        line-height: 1.65;
+    }
+    
+    .about-gif {
+        max-width: 260px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- перья -->
+<div class="feather f1">
+    <img src="images/pngwing.com.png" alt="">
+</div>
+
+<div class="feather f2">
+    <img src="images/pngwing.com.png" alt="">
+</div>
+
+<!-- ХЕДЕР -->
+<header id="header">
+    <div class="container header-inner">
+        <div class="logo" onclick="location.href='index.html'">HEARTO</div>
+        <button class="burger" id="burgerBtn">☰</button>
+        <nav>
+            <a href="index.html#portfolio">Работы</a>
+            <a href="about.html" style="color:#5B4BFF;">О мастере</a>
+            <a href="index.html#process">Процесс</a>
+            <a href="delivery.html">Доставка</a>
+            <a href="order.html" class="btn">Заказать</a>
+        </nav>
+    </div>
+</header>
+<div class="menu-overlay" id="menuOverlay"></div>
+
+<!-- ОСНОВА -->
+<section class="about-master">
+<div class="about-container">
+
+    <!-- ГИФКА — УМЕРЕННЫЙ РАЗМЕР -->
+    <div class="about-gif">
+        <img src="images/master.gif" alt="Процесс создания">
+    </div>
+
+    <!-- ТЕКСТ -->
+    <div class="about-text">
+
+        <div class="decor d1"><i class="fas fa-star"></i></div>
+        <div class="decor d2"><i class="fas fa-moon"></i></div>
+
+        <h1>Мастерская </h1>
+
+        <p><strong>Дорогие посетители</strong></p>
+
+        <p>
+        Вы оказались в небольшой мастерской, которую я открыла совсем недавно.  
+        Я только начинаю этот путь, но уже сейчас создаю работы вручную, уделяя внимание форме, деталям и общему ощущению.
+        </p>
+
+        <p>
+        Пока мастерская только начинает свою историю, каждая работа становится частью этого пути — аккуратного, немного экспериментального и по-своему особенного.
+        Я принимаю идеи и эскизы, иногда даже просто образы без точного описания — этого достаточно, чтобы появилась форма.
+        </p>
+
+        <p>
+        Работы могут немного отличаться, иногда быть неидеальными, но именно это делает их живыми и настоящими.
+        </p>
+
+        <p>
+        В процессе я соединяю разные материалы и техники, чтобы добиться нужного характера и настроения.
+        </p>
+
+        <div class="signature">
+             Спасибо, что заглянули<br>
+            Здесь всё создаётся вручную
+        </div>
+
+        <div class="small-note">
+            <i class="fas fa-feather-alt"></i> Имя пока не публикуется — важнее сами игрушки
+        </div>
+
+    </div>
+
+</div>
+</section>
+
+<!-- ФУТЕР -->
+<footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div>
+                <h3>HEARTO</h3>
+                <p>Авторские игрушки</p>
+            </div>
+            <div>
+                <h4>Навигация</h4>
+                <a href="index.html#portfolio">Работы</a>
+                <a href="about.html">О мастере</a>
+                <a href="index.html#process">Процесс</a>
+                <a href="delivery.html">Доставка</a>
+                <a href="order.html">Заказать</a>
+            </div>
+            <div>
+                <h4>Документы</h4>
+                <a href="privacy.html">Политика конфиденциальности</a>
+                <a href="terms.html">Пользовательское соглашение</a>
+            </div>
+            <div>
+                <h4>Соцсети</h4>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© 2026 HEARTO</p>
+        </div>
+    </div>
+</footer>
+
+<!-- ПОМОЩНИК -->
+<div id="assistantOpen" class="assistant-open">💬</div>
+<div id="assistant" class="assistant">
+<div id="questions" class="assistant-questions"></div>
+<div id="message" class="assistant-text"></div>
+<div class="assistant-character">
+<img id="characterImg" src="images/talk.jfif" alt="Помощник">
+</div>
+<button id="assistantClose" class="assistant-close">⭐</button>
+</div>
+
+<audio id="typingSound" src="sounds/typing.wav" preload="auto"></audio>
+<script src="script.js"></script>
+
+</body>
+</html>

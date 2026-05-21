@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Доставка и возврат — HEARTO</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        /* Дополнительные стили, сохраняющие цветовую гамму сайта */
+        .delivery-hero {
+            text-align: center;
+            padding: 140px 0 40px;
+        }
+        .delivery-hero h1 {
+            font-size: 42px;
+            margin-bottom: 16px;
+            color: #1E1B4B;
+        }
+        .delivery-hero h1::after {
+            content: "";
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #5B4BFF, #C93367);
+            margin: 12px auto 0;
+            border-radius: 2px;
+        }
+        .delivery-hero .sub {
+            font-size: 16px;
+            color: #6b5f7a;
+            max-width: 550px;
+            margin: 0 auto;
+        }
+
+        /* Важный блок об оплате */
+        .important-block {
+            background: linear-gradient(135deg, #f7f4fc, #faf7ff);
+            border-radius: 28px;
+            padding: 28px 32px;
+            margin: 30px 0 50px;
+            border-left: 5px solid #97277A;
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+        .important-icon {
+            background: rgba(151, 39, 122, 0.1);
+            width: 56px;
+            height: 56px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .important-icon i {
+            font-size: 28px;
+            color: #97277A;
+        }
+        .important-text {
+            flex: 1;
+        }
+        .important-text h3 {
+            font-size: 20px;
+            margin-bottom: 8px;
+            color: #1E1B4B;
+        }
+        .important-text p {
+            color: #4a4568;
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        .important-text strong {
+            color: #C93367;
+        }
+
+        /* Карточки доставки */
+        .delivery-grid-custom {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 70px;
+        }
+        .delivery-card-custom {
+            background: white;
+            border-radius: 24px;
+            padding: 32px 24px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+            border: 1px solid rgba(91, 75, 255, 0.08);
+        }
+        .delivery-card-custom:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 35px rgba(91, 75, 255, 0.12);
+            border-color: rgba(91, 75, 255, 0.2);
+        }
+        .delivery-card-custom i {
+            font-size: 48px;
+            background: linear-gradient(135deg, #5B4BFF, #97277A);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 18px;
+            display: inline-block;
+        }
+        .delivery-card-custom h3 {
+            font-size: 22px;
+            margin-bottom: 12px;
+            color: #1E1B4B;
+        }
+        .delivery-card-custom p {
+            font-size: 14px;
+            color: #6b5f7a;
+            line-height: 1.5;
+        }
+
+        /* Секция возврата */
+        .return-wrapper {
+            background: #F6F5FF;
+            border-radius: 32px;
+            padding: 50px 40px;
+            margin-bottom: 60px;
+        }
+        .return-wrapper h2 {
+            text-align: center;
+            margin-bottom: 35px;
+            font-size: 30px;
+        }
+        .return-wrapper h2::after {
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .return-two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        .return-box {
+            background: white;
+            border-radius: 24px;
+            padding: 28px;
+            transition: 0.2s;
+        }
+        .return-box h4 {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 18px;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid;
+        }
+        .return-box.possible h4 {
+            color: #5B4BFF;
+            border-bottom-color: #5B4BFF;
+        }
+        .return-box.impossible h4 {
+            color: #C93367;
+            border-bottom-color: #C93367;
+        }
+        .return-box ul {
+            list-style: none;
+            padding: 0;
+        }
+        .return-box li {
+            margin-bottom: 14px;
+            padding-left: 28px;
+            position: relative;
+            color: #4a4568;
+            line-height: 1.45;
+        }
+        .return-box.possible li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #5B4BFF;
+            font-weight: bold;
+        }
+        .return-box.impossible li::before {
+            content: "✗";
+            position: absolute;
+            left: 0;
+            color: #C93367;
+            font-weight: bold;
+        }
+        .return-footer {
+            text-align: center;
+            margin-top: 35px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(91, 75, 255, 0.15);
+        }
+        .return-footer p {
+            color: #6b5f7a;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        .return-footer i {
+            color: #97277A;
+            margin-right: 6px;
+        }
+
+        @media (max-width: 768px) {
+            .delivery-hero { padding-top: 100px; }
+            .delivery-hero h1 { font-size: 32px; }
+            .important-block { flex-direction: column; align-items: center; text-align: center; }
+            .return-wrapper { padding: 30px 20px; }
+            .return-two-columns { grid-template-columns: 1fr; gap: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ХЕДЕР -->
+    <header id="header">
+        <div class="container header-inner">
+            <div class="logo" onclick="location.href='index.html'">HEARTO</div>
+            <button class="burger" id="burgerBtn">☰</button>
+            <nav>
+                <a href="index.html#portfolio">Работы</a>
+                <a href="about.html">О мастере</a>
+                <a href="index.html#process">Процесс</a>
+                <a href="delivery.html" style="color: #5B4BFF; font-weight: 500;">Доставка</a>
+                <a href="order.html" class="btn">Заказать</a>
+            </nav>
+        </div>
+    </header>
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <!-- ОСНОВНОЙ КОНТЕНТ -->
+    <div class="container">
+        
+        <!-- Начальный блок -->
+        <div class="delivery-hero">
+            <h1>Доставка и возврат</h1>
+            <p class="sub">Отправляю заказы по всей России. Каждая игрушка доставляется бережно и с трек-номером.</p>
+        </div>
+
+        <!-- Блок об оплате доставки -->
+        <div class="important-block">
+            <div class="important-icon">
+                <i class="fas fa-ruble-sign"></i>
+            </div>
+            <div class="important-text">
+                <h3>Доставка оплачивается отдельно</h3>
+                <p>Стоимость пересылки <strong>не входит</strong> в цену игрушки и полностью <strong>оплачивается заказчиком</strong>.</p>
+                <p>Сумма зависит от вашего города, веса посылки и выбранной службы доставки. Я сообщаю точную стоимость после упаковки заказа. Обычно это <strong>350–700 рублей</strong>.</p>
+            </div>
+        </div>
+
+        <!-- Службы доставки -->
+        <div class="delivery-grid-custom">
+            <div class="delivery-card-custom">
+                <i class="fas fa-box"></i>
+                <h3>СДЭК</h3>
+                <p>Доставка до пункта выдачи или курьером на дом. Быстрый трекинг, бережная обработка посылок.</p>
+            </div>
+            <div class="delivery-card-custom">
+                <i class="fas fa-truck"></i>
+                <h3>ТК КИТ</h3>
+                <p>Надёжная транспортная компания. Хорошо подходит для отправки нескольких игрушек или крупных заказов.</p>
+            </div>
+            <div class="delivery-card-custom">
+                <i class="fas fa-envelope"></i>
+                <h3>Почта России</h3>
+                <p>Отправляю в любой город России. Посылка приходит с трек-номером, который можно отследить.</p>
+            </div>
+        </div>
+
+        <!-- ВОЗВРАТ -->
+        <div class="return-wrapper">
+            <h2>Условия возврата</h2>
+            <div class="return-two-columns">
+                <div class="return-box possible">
+                    <h4><i class="fas fa-check-circle"></i> Когда можно вернуть</h4>
+                    <ul>
+                        <li>Игрушка повреждена при пересылке (нужно фото упаковки)</li>
+                        <li>Обнаружен брак: отклеилась деталь, трещина, скол</li>
+                        <li>Размер отличается от заявленного больше чем на 1 см</li>
+                        <li>Вы обратились <strong>в течение 7 дней</strong> после получения</li>
+                    </ul>
+                </div>
+                <div class="return-box impossible">
+                    <h4><i class="fas fa-times-circle"></i> Когда вернуть нельзя</h4>
+                    <ul>
+                        <li>Прошло больше 7 дней с момента получения</li>
+                        <li>Игрушка уже использовалась или повреждена вами</li>
+                        <li>Вам не понравился оттенок или лёгкая асимметрия (это особенности ручной работы)</li>
+                        <li>Товар качественный, но вы просто передумали</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="return-footer">
+                <p><i class="fas fa-comment-dots"></i> <strong>Как оформить возврат:</strong> Напишите мне в Telegram или на почту в течение 7 дней после получения посылки. Приложите фото брака и фото упаковки. Я отвечу в течение двух дней. Если брак подтвердится — я дам скидку, сделаю новую игрушку или верну деньги за неё (стоимость доставки не возвращается).</p>
+                <p style="margin-top: 12px;"><i class="fas fa-camera"></i> Перед отправкой я всегда фотографирую готовую игрушку и согласовываю с вами. Это помогает избежать споров о внешнем виде.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div><h3>HEARTO</h3><p>Авторские игрушки</p></div>
+                <div>
+                    <h4>Навигация</h4>
+                    <a href="index.html#portfolio">Работы</a>
+                    <a href="about.html">О мастере</a>
+                    <a href="index.html#process">Процесс</a>
+                    <a href="delivery.html">Доставка</a>
+                    <a href="order.html">Заказать</a>
+                </div>
+                <div>
+                    <h4>Документы</h4>
+                    <a href="privacy.html">Политика конфиденциальности</a>
+                    <a href="terms.html">Пользовательское соглашение</a>
+                </div>
+                <div>
+                    <h4>Соцсети</h4>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright"><p>© 2026 HEARTO</p></div>
+        </div>
+    </footer>
+
+    <!-- Помощник -->
+    <div id="assistantOpen" class="assistant-open">💬</div>
+    <div id="assistant" class="assistant">
+        <div id="questions" class="assistant-questions"></div>
+        <div id="message" class="assistant-text"></div>
+        <div class="assistant-character">
+            <img id="characterImg" src="images/talk.jfif" alt="Помощник">
+        </div>
+        <button id="assistantClose" class="assistant-close">⭐</button>
+    </div>
+
+    <audio id="typingSound" src="sounds/typing.wav" preload="auto"></audio>
+    <script src="script.js"></script>
+</body>
+</html>
