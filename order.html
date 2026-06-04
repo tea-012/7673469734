@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <title>HEARTO — Заказать фигурку</title>
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style/adabtive.css">
 <style>
 :root {
     --blue-main: #5B4BFF;
@@ -400,17 +401,20 @@
         </div>
 
         <div class="order-form-card" id="orderFormCard">
-            <form id="orderForm" action="https://formspree.io/f/mjgzwoaw" method="POST" enctype="multipart/form-data" accept-charset="UTF-8">
-                <input type="hidden" name="_subject" value="Новая заявка на фигурку! HEARTO">
+<form action="https://formsubmit.co/heartforms10w01@gmail.com" method="POST" enctype="multipart/form-data">
+    <!-- Скрытые поля для настройки -->
+    <input type="hidden" name="_subject" value="Новый заказ HEARTO!">
+    <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_template" value="table">
                 <div class="contact-note">
                     <i class="fas fa-info-circle"></i>
-                    <strong>Обязательно:</strong> заполните <u>описание заказа</u> и хотя бы один способ связи — <strong>почту</strong> или <strong>телеграмм</strong>. Остальное — на ваше усмотрение.
+                    <strong>Обязательно:</strong> заполните <u>описание заказа</u> и хотя бы один способ связи — <strong>почту</strong> или <strong>вконтакте</strong>. Остальное — на ваше усмотрение.
                 </div>
 
                 <div class="form-group">
                     <label>Почта <span class="req">*</span></label>
                     <input type="email" id="email"  name="email" placeholder="example@mail.ru" autocomplete="email">
-                    <div class="hint">* или заполните Telegram</div>
+                    <div class="hint">* или заполните Месседжер</div>
                 </div>
 
                 <div class="form-group">
@@ -514,11 +518,6 @@
     <a href="privacy.html">Политика конфиденциальности</a>
     <a href="terms.html">Пользовательское соглашение</a>
 </div>
-<div>
-<h4>Соцсети</h4>
-<div class="social-icons">
-<a href="#"><i class="fab fa-telegram"></i></a>
-</div>
 </div>
 </div>
 <div class="copyright"><p>© 2026 HEARTO</p></div>
@@ -550,206 +549,163 @@
 })();
 
 
- /*// ===== ЛОГИКА ФОРМЫ =====
+/* =========================
+FORMSUBMIT + ПРЕВЬЮ ФАЙЛОВ (FIXED)
+========================= */
 document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('orderForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const submitText = document.getElementById('submitText');
-    const successMessage = document.getElementById('successMessage');
-    const fileDropZone = document.getElementById('fileDropZone');
-    const fileClickTrigger = document.getElementById('fileClickTrigger');
+    const orderForm = document.getElementById('orderForm');
     const fileInput = document.getElementById('fileInput');
-    const filePreviewList = document.getElementById('filePreviewList');
+    const dropZone = document.getElementById('fileDropZone');
+    const trigger = document.getElementById('fileClickTrigger');
+    const previewList = document.getElementById('filePreviewList');
+    const submitBtn = document.getElementById('submitBtn');
+    const successMessage = document.getElementById('successMessage');
 
-    let uploadedFiles = [];
+    // Массив для хранения выбранных файлов (чтобы можно было удалять по одному)
+    let selectedFiles = [];
 
-    fileClickTrigger.addEventListener('click', () => fileInput.click());
-
-    fileInput.addEventListener('change', (e) => {
-        if (e.target.files.length) {
-            addFiles(Array.from(e.target.files));
-            fileInput.value = '';
-        }
-    });
-
-    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(evt => {
-        fileDropZone.addEventListener(evt, e => { e.preventDefault(); e.stopPropagation(); }, false);
-    });
-
-    fileDropZone.addEventListener('dragover', e => { e.preventDefault(); e.stopPropagation(); fileDropZone.classList.add('dragover'); });
-    fileDropZone.addEventListener('dragleave', e => { e.preventDefault(); e.stopPropagation(); fileDropZone.classList.remove('dragover'); });
-    fileDropZone.addEventListener('drop', e => {
-        e.preventDefault(); e.stopPropagation();
-        fileDropZone.classList.remove('dragover');
-        if (e.dataTransfer?.files?.length) addFiles(Array.from(e.dataTransfer.files));
-    });
-
-    function addFiles(files) {
-        let added = false;
-        for (const f of files) {
-            if (f.size > 10 * 1024 * 1024) continue;
-            if (uploadedFiles.some(existing => existing.name === f.name && existing.size === f.size)) continue;
-            uploadedFiles.push(f);
-            added = true;
-        }
-        if (added) renderFilePreviews();
-    }
-
-    function renderFilePreviews() {
-        filePreviewList.innerHTML = '';
-        uploadedFiles.forEach((f, i) => {
-            const item = document.createElement('div');
-            item.className = 'file-preview-item';
-
-            if (f.type.startsWith('image/')) {
-                const img = document.createElement('img');
-                img.ondragstart = e => e.preventDefault();
-                img.draggable = false;
-                const reader = new FileReader();
-                reader.onload = e => { img.src = e.target.result; item.appendChild(img); };
-                reader.readAsDataURL(f);
-            } else {
-                const ph = document.createElement('div');
-                ph.style.cssText = 'display:flex;align-items:center;justify-content:center;height:100%;background:#EEEDFF;font-size:24px;';
-                ph.textContent = '📄';
-                item.appendChild(ph);
-            }
-
-            const btn = document.createElement('button');
-            btn.type = 'button';
-            btn.className = 'file-preview-item__remove';
-            btn.innerHTML = '✕';
-            btn.addEventListener('click', e => { e.stopPropagation(); uploadedFiles.splice(i, 1); renderFilePreviews(); });
-            item.appendChild(btn);
-            filePreviewList.appendChild(item);
+    // 1. Клик по зоне -> открываем выбор
+    if (trigger && fileInput) {
+        trigger.addEventListener('click', (e) => { 
+            e.preventDefault(); 
+            fileInput.click(); 
         });
     }
 
-    form.addEventListener('submit', e => {
-        e.preventDefault();
-        const email = document.getElementById('email').value.trim();
-        const telegram = document.getElementById('telegram').value.trim();
-        const desc = document.getElementById('description').value.trim();
+    // 2. Обработка выбора файлов через диалоговое окно
+    if (fileInput) {
+        fileInput.addEventListener('change', () => {
+            addFiles(Array.from(fileInput.files));
+            fileInput.value = ''; // Очищаем инпут, чтобы можно было выбрать тот же файл снова
+        });
+    }
 
-        if (!email && !telegram) { alert('Пожалуйста, заполните хотя бы Почту или Telegram ✉️'); return; }
-        if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { alert('Проверьте формат электронной почты ✉️'); return; }
-        if (!desc) { alert('Пожалуйста, опишите ваш заказ ✨'); document.getElementById('description').focus(); return; }
-        if (desc.length < 20) { alert('Опишите заказ подробнее — хотя бы 20 символов, чтобы я поняла вашу идею 💜'); document.getElementById('description').focus(); return; }
+    // 3. Drag & Drop логика
+    if (dropZone) {
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(evt => {
+            dropZone.addEventListener(evt, (e) => { e.preventDefault(); e.stopPropagation(); });
+        });
+        
+        dropZone.addEventListener('dragover', () => dropZone.classList.add('drag-active'));
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-active'));
+        
+        dropZone.addEventListener('drop', (e) => {
+            dropZone.classList.remove('drag-active');
+            const files = e.dataTransfer.files;
+            if (files.length) addFiles(Array.from(files));
+        });
+    }
 
-        submitBtn.disabled = true;
-        submitText.textContent = 'Отправляю...';
-
-        setTimeout(() => {
-            form.style.display = 'none';
-            successMessage.classList.add('show');
-            if (typeof starRain === 'function') starRain({ particleCount: 60, spread: 50 });
-        }, 1200);
-    });
-
-    const phoneInput = document.getElementById('phone');
-    phoneInput.addEventListener('input', e => {
-        let val = e.target.value.replace(/\D/g, '');
-        if (val.length) { if (val[0] === '8') val = '7' + val.slice(1); if (val[0] !== '7') val = '7' + val; }
-        let f = '';
-        if (val.length) f = '+' + val[0];
-        if (val.length > 1) f += ' (' + val.substring(1, 4);
-        if (val.length > 4) f += ') ' + val.substring(4, 7);
-        if (val.length > 7) f += '-' + val.substring(7, 9);
-        if (val.length > 9) f += '-' + val.substring(9, 11);
-        e.target.value = f;
-    });
-});
- /*
-/* =========================
-FORMBOLD + ФАЙЛЫ (FIX)
-========================= */
-const orderForm = document.getElementById('orderForm');
-const fileInput = document.getElementById('fileInput');
-const dropZone = document.getElementById('fileDropZone');
-const trigger = document.getElementById('fileClickTrigger');
-const previewList = document.getElementById('filePreviewList');
-
-// 1. Клик по зоне -> открываем выбор
-if (trigger && fileInput) {
-    trigger.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); fileInput.click(); });
-}
-
-// 2. Drag & Drop -> записываем файлы в инпут
-if (dropZone && fileInput) {
-    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(evt => {
-        dropZone.addEventListener(evt, (e) => { e.preventDefault(); e.stopPropagation(); });
-    });
-    ['dragenter', 'dragover'].forEach(evt => dropZone.addEventListener(evt, () => dropZone.classList.add('drag-active')));
-    ['dragleave', 'drop'].forEach(evt => dropZone.addEventListener(evt, () => dropZone.classList.remove('drag-active')));
-
-    dropZone.addEventListener('drop', (e) => {
-        const files = e.dataTransfer.files;
-        if (files.length) {
-            fileInput.files = files; // 🔥 КЛЮЧЕВОЕ: передаём файлы в скрытый инпут
-            updatePreview(files);
-        }
-    });
-}
-
-// 3. Стандартный выбор -> превью
-if (fileInput) {
-    fileInput.addEventListener('change', () => updatePreview(fileInput.files));
-}
-
-function updatePreview(files) {
-    if (!previewList) return;
-    previewList.innerHTML = '';
-    Array.from(files).forEach(f => {
-        const div = document.createElement('div');
-        div.style.cssText = 'font-size:13px; color:#666; margin:4px 0;';
-        div.textContent = `📄 ${f.name} (${(f.size/1024).toFixed(1)} KB)`;
-        previewList.appendChild(div);
-    });
-}
-
-// 4. Отправка формы
-if (orderForm) {
-    orderForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const btn = document.getElementById('submitBtn');
-        const originalText = btn.innerHTML;
-        btn.disabled = true;
-        btn.innerHTML = 'Отправляю... ⏳';
-
-        const formData = new FormData(orderForm);
-
-        // 🔍 ПРОВЕРКА: открой F12 → Console, чтобы видеть, что уходит
-        console.log('📤 Отправляемые данные:');
-        for (let pair of formData.entries()) {
-            if (pair[0] === 'file') {
-                console.log(`📁 Файл: ${pair[1].name} (${pair[1].size} байт)`);
-            } else {
-                console.log(`${pair[0]}: ${pair[1]}`);
+    // Функция добавления файлов в массив
+    function addFiles(newFiles) {
+        newFiles.forEach(file => {
+            // Проверка на дубликаты
+            if (!selectedFiles.some(f => f.name === file.name && f.size === file.size)) {
+                selectedFiles.push(file);
             }
-        }
+        });
+        renderPreviews();
+    }
 
-        try {
-            const response = await fetch(orderForm.action, {
-                method: 'POST',
-                body: formData,
-                headers: { 'Accept': 'application/json' }
+    // Функция отрисовки превью
+    function renderPreviews() {
+        if (!previewList) return;
+        previewList.innerHTML = '';
+        
+        selectedFiles.forEach((file, index) => {
+            const item = document.createElement('div');
+            item.className = 'file-preview-item';
+
+            if (file.type.startsWith('image/')) {
+                const img = document.createElement('img');
+                const reader = new FileReader();
+                reader.onload = e => { img.src = e.target.result; };
+                reader.readAsDataURL(file);
+                item.appendChild(img);
+            } else {
+                // Иконка для не-картинок
+                item.style.display = 'flex';
+                item.style.alignItems = 'center';
+                item.style.justifyContent = 'center';
+                item.style.background = '#EEEDFF';
+                item.style.fontSize = '24px';
+                item.textContent = '📄';
+            }
+
+            // Кнопка удаления
+            const removeBtn = document.createElement('button');
+            removeBtn.type = 'button';
+            removeBtn.className = 'file-preview-item__remove';
+            removeBtn.innerHTML = '✕';
+            removeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                selectedFiles.splice(index, 1); // Удаляем из массива
+                renderPreviews(); // Перерисовываем
+            });
+            
+            item.appendChild(removeBtn);
+            previewList.appendChild(item);
+        });
+    }
+
+    // 4. Отправка формы через Fetch (чтобы не перезагружать страницу)
+    if (orderForm) {
+        orderForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Простая валидация перед отправкой
+            const email = document.getElementById('email').value.trim();
+            const desc = document.getElementById('description').value.trim();
+            
+            if (!email || !desc) {
+                alert('Пожалуйста, заполните Email и Описание заказа ✨');
+                return;
+            }
+
+            const originalBtnText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = 'Отправляю... ⏳';
+
+            // Создаем FormData
+            const formData = new FormData(orderForm);
+            
+            // ВАЖНО: FormSubmit ожидает файлы в поле с именем "attachment" (как в HTML)
+            // Но так как мы используем свой массив selectedFiles, нам нужно добавить их вручную
+            // Сначала очищаем поле attachment в formData, если там что-то осталось
+            formData.delete('attachment');
+            
+            selectedFiles.forEach(file => {
+                formData.append('attachment', file);
             });
 
-            if (response.ok) {
-                orderForm.style.display = 'none';
-                const successMsg = document.getElementById('successMessage');
-                if (successMsg) successMsg.style.display = 'block';
-            } else {
-                alert('Ошибка сервера: ' + response.status);
+            try {
+                const response = await fetch(orderForm.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                if (response.ok) {
+                    orderForm.style.display = 'none';
+                    if (successMessage) successMessage.style.display = 'block';
+                    // Очистка
+                    selectedFiles = [];
+                    renderPreviews();
+                } else {
+                    alert('Ошибка при отправке. Попробуйте позже.');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Ошибка сети. Проверьте подключение.');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnText;
             }
-        } catch (err) {
-            alert('Ошибка сети: ' + err.message);
-        } finally {
-            btn.disabled = false;
-            btn.innerHTML = originalText;
-        }
-    });
-}
+        });
+    }
+});
+
+
 </script>
 </body>
 </html>
