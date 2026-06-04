@@ -68,28 +68,39 @@ document.head.appendChild(style);
 
 
 
-// Модалка
+/* =========================
+МОДАЛЬНОЕ ОКНО (ИСПРАВЛЕНО)
+========================= */
 const modal = document.getElementById('workModal');
 if (modal) {
-    const modalImg = modal.querySelector('.modal-img');
-    const modalTitle = modal.querySelector('.modal-title');
-    const modalDesc = modal.querySelector('.modal-desc');
+  const modalImg = modal.querySelector('.modal-img');
+  const modalTitle = modal.querySelector('.modal-title');
+  const modalDesc = modal.querySelector('.modal-desc');
+  const grid = document.querySelector('#portfolio .grid'); // Ищем сетку в портфолио
+
+  grid?.addEventListener('click', (e) => {
+    const card = e.target.closest('.card');
+    if (!card) return;
     
-    document.querySelector('.grid').addEventListener('click', (e) => {
-        const card = e.target.closest('.card');
-        if (!card) return;
-        modalImg.src = card.querySelector('img')?.src || '';
-        modalTitle.textContent = card.querySelector('h3')?.textContent || '';
-        modalDesc.textContent = card.querySelector('p')?.textContent || '';
-        modal.classList.add('is-active');
-        document.body.style.overflow = 'hidden';
-    });
+    modalImg.src = card.querySelector('img')?.src || '';
+    // ВАЖНО: в HTML используется h4, а не h3
+    modalTitle.textContent = card.querySelector('h4')?.textContent || ''; 
+    modalDesc.textContent = card.querySelector('p')?.textContent || '';
     
-    modal.querySelector('.modal-close')?.addEventListener('click', () => {
-        modal.classList.remove('is-active');
-        document.body.style.overflow = '';
-    });
-    modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('is-active'); });
+    modal.classList.add('is-active');
+    document.body.style.overflow = 'hidden';
+  });
+
+  modal.querySelector('.modal-close')?.addEventListener('click', () => {
+    modal.classList.remove('is-active');
+    document.body.style.overflow = '';
+  });
+  modal.addEventListener('click', (e) => { 
+    if (e.target === modal) {
+      modal.classList.remove('is-active');
+      document.body.style.overflow = '';
+    }
+  });
 }
 
 /* =========================
@@ -180,7 +191,8 @@ function showQuestions() {
     const qData = [
         { id: 1, text: "Как заказать?" },
         { id: 2, text: "Доставка?" },
-        { id: 3, text: "Материалы?" }
+        { id: 3, text: "Материалы?" },
+        { id: 4, text: "Как посмотреть отзовы?" }
     ];
 
     qData.forEach((q, i) => {
@@ -196,8 +208,9 @@ function showQuestions() {
 function answer(id) {
     let text = "";
     if (id === 1) text = "Заполни форму заказа ✨";
-    else if (id === 2) text = "Доставка через СДЭК 📦";
-    else if (id === 3) text = "Использую безопасные материалы";
+    else if (id === 2) text = "Перейдите во вкладку доставки и там вы все можите узнать";
+    else if (id === 3) text = "Глина, искуственная шерсть, акрил и лак для акрила";
+    else if (id === 4) text = "Посмотреть отзовы вы можите на страничке в вк";
 
     if (questions) {
         questions.innerHTML = '';
@@ -216,12 +229,12 @@ function startTalking() {
     if (!characterImg) return;
     characterImg.classList.add('talking');
     let isOpen = false;
-    characterImg.src = "images/talk.jfif";
+    characterImg.src = "images/talk.png";
 
     if (talkingInterval) clearInterval(talkingInterval);
     talkingInterval = setInterval(() => {
         if (characterImg) {
-            characterImg.src = isOpen ? "images/talk.jfif" : "images/GAKUPO CATZ.jfif";
+            characterImg.src = isOpen ? "images/talk.png" : "images/GAKUPO CATZ.png";
         }
         isOpen = !isOpen;
     }, 200);
@@ -233,7 +246,7 @@ function stopTalking() {
         talkingInterval = null;
     }
     if (characterImg) {
-        characterImg.src = "images/GAKUPO CATZ.jfif";
+        characterImg.src = "images/GAKUPO CATZ.png";
         characterImg.classList.remove('talking');
     }
 }
@@ -269,34 +282,44 @@ if (openBtn && assistant) {
 }
 
 /* =========================
-   БУРГЕР-МЕНЮ
+БУРГЕР-МЕНЮ (ФИНАЛЬНОЕ ИСПРАВЛЕНИЕ)
 ========================= */
 document.addEventListener('DOMContentLoaded', () => {
-    const burger = document.getElementById('burgerBtn');
-    const nav = document.querySelector('nav');
-    const overlay = document.getElementById('menuOverlay');
-    if (!burger || !nav) return;
-    
-    const toggleMenu = () => {
-        const isOpen = nav.classList.toggle('is-open');
-        burger.classList.toggle('is-active');
-        overlay?.classList.toggle('is-active', isOpen);
-        document.body.style.overflow = isOpen ? 'hidden' : '';
-    };
-    
-    burger.addEventListener('click', toggleMenu);
-    overlay?.addEventListener('click', toggleMenu);
-    
-    nav.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-            nav.classList.remove('is-open');
-            burger.classList.remove('is-active');
-            overlay?.classList.remove('is-active');
-            document.body.style.overflow = '';
-        });
-    });
-});
+  const burger = document.getElementById('burgerBtn');
+  const nav = document.querySelector('nav');
+  const overlay = document.getElementById('menuOverlay');
 
+  if (!burger || !nav) return;
+
+  const openMenu = () => {
+    nav.classList.add('is-open');
+    burger.classList.add('is-active');
+    overlay?.classList.add('is-active');
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeMenu = () => {
+    nav.classList.remove('is-open');
+    burger.classList.remove('is-active');
+    overlay?.classList.remove('is-active');
+    document.body.style.overflow = '';
+  };
+
+  // Клик по бургеру открывает/закрывает
+  burger.addEventListener('click', () => {
+    nav.classList.contains('is-open') ? closeMenu() : openMenu();
+  });
+
+  // Закрываем ТОЛЬКО если клик попал строго по серому фону, а не по меню
+  overlay?.addEventListener('click', (e) => {
+    if (e.target === overlay) closeMenu();
+  });
+
+  // Клик по любой ссылке закрывает меню (не ломая переход/скролл)
+  nav.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', closeMenu);
+  });
+});
 /* =========================
    ПЛАВНЫЙ СКРОЛЛ
 ========================= */
@@ -309,86 +332,40 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
 });
 
 /* =========================
-PROCESS - НИТКА С ЦВЕТАМИ
-========================= */
-const threadCards = document.querySelectorAll('.thread-card');
-const threadLines = document.querySelectorAll('.thread-line');
-
-threadCards.forEach((card, index) => {
-  card.addEventListener('mouseenter', () => {
-    // Получаем цвет из data-атрибута
-    const color = card.getAttribute('data-color');
-    
-    // Находим соответствующий сегмент нитки
-    const line = document.querySelector(`.thread-line[data-segment="${index + 1}"]`);
-    
-    if (line) {
-      // Меняем цвет нитки
-      line.style.stroke = color;
-      line.classList.add('active');
-      
-      // Меняем цвет узелка
-      const knot = card.querySelector('.thread-knot');
-      if (knot) {
-        knot.style.background = color;
-        knot.style.boxShadow = `0 3px 10px ${color}66`;
-      }
-    }
-  });
-  
-  card.addEventListener('mouseleave', () => {
-    const line = document.querySelector(`.thread-line[data-segment="${index + 1}"]`);
-    
-    if (line) {
-      // Возвращаем исходный цвет
-      line.style.stroke = '#a18cd1';
-      line.classList.remove('active');
-      
-      // Возвращаем узелок
-      const knot = card.querySelector('.thread-knot');
-      if (knot) {
-        knot.style.background = '#97277A';
-        knot.style.boxShadow = '0 3px 10px rgba(151, 39, 122, 0.4)';
-      }
-    }
-  });
-});
-
-/* =========================
-ПАРАЛЛАКС — МЕРЧ
+ПАРАЛЛАКС — МЕРЧ (ЛЕГКОЕ КОЛЕБАНИЕ)
 ========================= */
 (() => {
-  const merchSection = document.getElementById('merch');
-  if (!merchSection) return;
-  
-  // Выбираем только обёртки (parallax-item)
-  const items = merchSection.querySelectorAll('.parallax-item');
-  if (items.length === 0) return;
-
-  let targetX = 0, targetY = 0;
-  let currentX = 0, currentY = 0;
-
-  document.addEventListener('mousemove', (e) => {
-    targetX = (e.clientX / window.innerWidth - 0.5) * 2;
-    targetY = (e.clientY / window.innerHeight - 0.5) * 2;
-  });
-
-  function animate() {
-    // Плавность
-    currentX += (targetX - currentX) * 0.08;
-    currentY += (targetY - currentY) * 0.08;
-
-    items.forEach((item) => {
-      const speed = parseFloat(item.dataset.speed) || 0.02;
-      const moveX = currentX * speed * 100; // Увеличил амплитуду до 1-2 см
-      const moveY = currentY * speed * 100;
-      
-      // Двигаем только обёртку
-      item.style.transform = `translate(${moveX}px, ${moveY}px)`;
+    const merchSection = document.getElementById('merch');
+    if (!merchSection) return;
+    
+    // Полностью отключаем параллакс на мобильных устройствах
+    if (window.innerWidth <= 768) return;
+    
+    const items = merchSection.querySelectorAll('.parallax-item');
+    if (items.length === 0) return;
+    
+    let targetX = 0, targetY = 0;
+    let currentX = 0, currentY = 0;
+    
+    document.addEventListener('mousemove', (e) => {
+        targetX = (e.clientX / window.innerWidth - 0.5) * 2;
+        targetY = (e.clientY / window.innerHeight - 0.5) * 2;
     });
-
-    requestAnimationFrame(animate);
-  }
-
-  animate();
+    
+    function animate() {
+        currentX += (targetX - currentX) * 0.08;
+        currentY += (targetY - currentY) * 0.08;
+        
+        items.forEach((item) => {
+            const speed = parseFloat(item.dataset.speed) || 10;
+            // Максимальный сдвиг будет равен speed (например, 10-15px), 
+            // что гарантирует, что объекты не уйдут далеко от своей позиции
+            const moveX = currentX * speed;
+            const moveY = currentY * speed;
+            item.style.transform = `translate(${moveX}px, ${moveY}px)`;
+        });
+        
+        requestAnimationFrame(animate);
+    }
+    animate();
 })();
